@@ -17,7 +17,6 @@ var React = _interopRequire(_react);
 var Component = _react.Component;
 var _presentation = require("./presentation");
 
-var Nav = _presentation.Nav;
 var Footer = _presentation.Footer;
 var Item = _presentation.Item;
 var Map = _presentation.Map;
@@ -25,6 +24,7 @@ var _containers = require("./containers");
 
 var Search = _containers.Search;
 var Results = _containers.Results;
+var Nav = _containers.Nav;
 var Home = (function (Component) {
 	function Home() {
 		_classCallCheck(this, Home);

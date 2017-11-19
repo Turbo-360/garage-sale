@@ -132,7 +132,7 @@ class Results extends Component {
 			alert('Your order has been submitted')
 			this.setState({
 				showModal: false
-			})			
+			})
 		})
 		.catch(err => {
 			alert('OOPS: ' + err.message)

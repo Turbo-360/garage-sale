@@ -8,9 +8,6 @@ var React = _interopRequire(_react);
 
 var Component = _react.Component;
 module.exports = function (props) {
-    // {id:1, key:'1', defaultAnimation:2, label:'Nike Jordans',
-    // position:{lat:40.7224017, lng:-73.9896719}},
-
     var item = props.item;
 
     return React.createElement(
@@ -27,26 +24,26 @@ module.exports = function (props) {
                     { className: "row" },
                     React.createElement(
                         "div",
-                        { className: "col-xs-5" },
-                        React.createElement(
-                            "div",
-                            { className: "icon-big icon-warning text-center" },
-                            React.createElement("i", { className: "ti-server" })
-                        )
-                    ),
-                    React.createElement(
-                        "div",
-                        { className: "col-xs-7" },
+                        { className: "col-xs-12" },
                         React.createElement(
                             "div",
                             { className: "numbers" },
                             React.createElement(
                                 "p",
                                 null,
-                                item.label
+                                item.name
                             ),
                             "$",
                             item.price
+                        )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "col-xs-12" },
+                        React.createElement(
+                            "a",
+                            { onClick: props.onPurchase.bind(undefined), href: "#" },
+                            React.createElement("img", { style: localStyle.itemImage, src: item.image })
                         )
                     )
                 ),
@@ -54,15 +51,28 @@ module.exports = function (props) {
                     "div",
                     { className: "footer" },
                     React.createElement("hr", null),
+                    React.createElement("img", { style: localStyle.icon, src: item.seller.image }),
                     React.createElement(
                         "div",
                         { className: "stats" },
-                        React.createElement("i", { className: "ti-reload" }),
-                        " Updated now"
+                        item.seller.username
                     )
                 )
             )
         )
     );
+};
 
+var localStyle = {
+    icon: {
+        width: 28,
+        borderRadius: 14,
+        float: "right"
+    },
+    itemImage: {
+        width: 100 + "%",
+        padding: 3,
+        border: "1px solid #ddd",
+        background: "#fffffa"
+    }
 };

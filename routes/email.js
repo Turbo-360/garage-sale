@@ -29,7 +29,6 @@ router.post('/send', function(req, res){
 		return
 	}
 
-
 	if (email.content == null){
 		res.json({
 			confirmation: 'fail',

@@ -13,6 +13,8 @@ var _reducers = require("../reducers");
 
 var userReducer = _reducers.userReducer;
 var itemReducer = _reducers.itemReducer;
+var mapReducer = _reducers.mapReducer;
+var accountReducer = _reducers.accountReducer;
 
 
 var store;
@@ -23,7 +25,9 @@ module.exports = {
 
 		var reducers = combineReducers({ // insert reducers here
 			user: userReducer,
-			item: itemReducer
+			item: itemReducer,
+			map: mapReducer,
+			account: accountReducer
 		});
 
 		if (initialState) {
