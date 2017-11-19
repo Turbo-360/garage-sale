@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Item } from '../presentation'
 import Dropzone from 'react-dropzone'
+import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import actions from '../../actions'
 import turbo from 'turbo360'
@@ -9,8 +10,12 @@ class Results extends Component {
 	constructor(){
 		super()
 		this.state = {
+			showModal: false,
 			item: {
 				// position: {lat:40.70224017, lng:-73.9796719}
+			},
+			order: {
+
 			}
 		}
 	}
@@ -77,13 +82,71 @@ class Results extends Component {
 		})
 	}
 
+	onPurchase(item, event){
+		event.preventDefault()
+
+		// this.state['showModal'] = true // NO
+
+		// YES
+		this.setState({
+			showModal: true,
+			selectedItem: item
+		})
+
+		console.log('onPurchase: ' + JSON.stringify(item))
+	}
+
+	updateOrder(event){
+		console.log('updateOrder: ' + event.target.value)
+		let updated = Object.assign({}, this.state.order)
+		updated['message'] = event.target.value
+		this.setState({
+			order: updated
+		})
+	}
+
+	submitOrder(){
+		let updated = Object.assign({}, this.state.order)
+		updated['item'] = this.state.selectedItem
+
+		updated['buyer'] = {
+			id: this.props.account.currentUser.id,
+			username: this.props.account.currentUser.username,
+			email: this.props.account.currentUser.email
+		}
+
+		// console.log('submitOrder: ' + JSON.stringify(updated))
+		this.props.submitOrder(updated)
+		.then(data => {
+			const email = {
+				fromemail: 'dkwon@turbo360.co',
+				fromname: 'Garage Sale!',
+				subject: 'You got a Purchase Order!',
+				content: updated.message,
+				recipient: 'dkwon@turbo360.co'
+			}
+
+			return this.props.sendEmail(email)
+		})
+		.then(data => {
+			alert('Your order has been submitted')
+			this.setState({
+				showModal: false
+			})			
+		})
+		.catch(err => {
+			alert('OOPS: ' + err.message)
+		})
+	}
+
+
 	render() {
 		const items = this.props.item.all || []
 		return (
 			<div className="container-fluid">
 				<div className="row">
 					{ items.map((item, i) => {
-							return <Item key={item.id} item={item} />
+							return <Item key={item.id} onPurchase={this.onPurchase.bind(this, item)} item={item} />
 						})
 					}
 				</div>
@@ -112,6 +175,15 @@ class Results extends Component {
 
 					</div>
 				</div>
+
+				<Modal bsSize="sm" show={this.state.showModal} onHide={ () => {this.setState({showModal:false})} }>
+					<Modal.Body style={localStyle.modal}>
+						<h3>Purchase Item</h3>
+						<hr />
+						<textarea onChange={this.updateOrder.bind(this)} style={localStyle.textarea} placeholder="Enter Message Here" className="form-control"></textarea>
+						<button onClick={this.submitOrder.bind(this)} className="btn btn-success btn-fill">Purchase!</button>
+					</Modal.Body>
+				</Modal>
 			</div>
 		)
 	}
@@ -121,6 +193,11 @@ const localStyle = {
 	input: {
 		border: '1px solid #ddd',
 		marginBottom: 12
+	},
+	textarea: {
+		border: '1px solid #ddd',
+		height: 160,
+		marginBottom: 16
 	}
 }
 
@@ -135,7 +212,9 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
 	return {
 		addItem: (item) => dispatch(actions.addItem(item)),
-		fetchItems: (params) => dispatch(actions.fetchItems(params))
+		fetchItems: (params) => dispatch(actions.fetchItems(params)),
+		submitOrder: (order) => dispatch(actions.submitOrder(order)),
+		sendEmail: (email) => dispatch(actions.sendEmail(email))
 	}
 }
 

@@ -7,11 +7,13 @@ const app = vertex.app()
 const index = require('./routes/index')
 const api = require('./routes/api')
 const auth = require('./routes/auth')
+const email = require('./routes/email')
 
 // set routes
 app.use('/', index)
 app.use('/api', api) // sample API Routes
 app.use('/auth', auth)
+app.use('/email', email)
 
 
 module.exports = app
