@@ -7794,6 +7794,7 @@ exports.default = {
 
 	LOCATION_CHANGED: 'LOCATION_CHANGED',
 	ITEM_ADDED: 'ITEM_ADDED',
+	ITEMS_RECEIVED: 'ITEMS_RECEIVED',
 	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED'
 
 	// USERS_RECEIVED: 		'USERS_RECEIVED',
@@ -13243,10 +13244,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
 
 	addItem: function addItem(item) {
-		return {
-			// type: 'ITEM_ADDED',
-			type: _constants2.default.ITEM_ADDED,
-			data: item
+		return function (dispatch) {
+			return dispatch(_utils.HTTPAsync.post('/api/item', item, _constants2.default.ITEM_ADDED));
+		};
+	},
+
+	fetchItems: function fetchItems(params) {
+		return function (dispatch) {
+			return dispatch(_utils.HTTPAsync.get('/api/item', params, _constants2.default.ITEMS_RECEIVED));
 		};
 	},
 
@@ -31324,7 +31329,7 @@ var _constants2 = _interopRequireDefault(_constants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
-	all: [{ id: '1', price: 10, name: 'Nike Jordans', image: 'https://soleserver.com/wp-content/uploads/2017/04/Air-Jordan-5-whitefire-red1-400x400.jpg', position: { lat: 40.7224017, lng: -73.9896719 }, seller: { username: 'lebron_james', image: 'http://www.athletesgonegood.com/images/thumbnails/thumb-lebron-james.jpg' } }, { id: '2', price: 20, name: 'Sofa', image: 'https://smhttp-ssl-18667.nexcesscdn.net/media/catalog/product/cache/1/image/400x400/9df78eab33525d08d6e5fb8d27136e95/s/i/sig-7970018-sofa-chise-3.jpg', position: { lat: 40.71224017, lng: -73.9896719 }, seller: { username: 'kevin_durant', image: 'https://pbs.twimg.com/profile_images/749992876906536960/mf3yAOgW.jpg' } }, { id: '3', price: 30, name: 'TV', image: 'https://d2uk7vc0yceq94.cloudfront.net/uploads/2017/08/25/s/0/1/12707801/PV2H-5.jpeg', position: { lat: 40.71224017, lng: -73.9796719 }, seller: { username: 'kyrie_irving', image: 'https://bookingagentinfo.com/wp-content/uploads/2016/12/Kyrie-Irving-Contact-Information.jpg' } }]
+	all: null
 };
 
 exports.default = function () {
@@ -31335,12 +31340,18 @@ exports.default = function () {
 
 	switch (action.type) {
 		case _constants2.default.ITEM_ADDED:
-			console.log('ITEM ADDED: ' + JSON.stringify(action.data));
+			var payload = action.data;
+			// console.log('ITEM ADDED: ' + JSON.stringify(payload.data))
 
 			var all = Object.assign([], updated.all);
-			all.push(action.data);
+			all.unshift(payload.data);
 			updated['all'] = all;
 
+			return updated;
+
+		case _constants2.default.ITEMS_RECEIVED:
+			// console.log('ITEMS_RECEIVED: ' + JSON.stringify(action.data))
+			updated['all'] = action.data.data;
 			return updated;
 
 		default:
@@ -46237,6 +46248,11 @@ var Results = function (_Component) {
 	}
 
 	_createClass(Results, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.props.fetchItems();
+		}
+	}, {
 		key: 'updateItem',
 		value: function updateItem(attr, event) {
 			event.preventDefault();
@@ -46260,19 +46276,18 @@ var Results = function (_Component) {
 
 			var currentUser = this.props.account.currentUser;
 			var updated = Object.assign({}, this.state.item);
+			updated['position'] = this.props.map.currentLocation;
 			updated['seller'] = {
 				id: currentUser.id,
 				username: currentUser.username,
 				image: currentUser.image || ''
-			};
 
-			console.log('ADD ITEM: ' + JSON.stringify(updated));
-
-			// let newItem = Object.assign({}, this.state.item)
-			// const len = this.props.item.all.length+1
-			// newItem['id'] = len.toString()
-			// newItem['position'] = this.props.map.currentLocation
-			// this.props.addItem(newItem)
+				// console.log('ADD ITEM: ' + JSON.stringify(updated))
+			};this.props.addItem(updated).then(function (data) {
+				console.log('ITEM ADDED:' + JSON.stringify(data));
+			}).catch(function (err) {
+				console.log('ERROR: ' + err.message);
+			});
 		}
 	}, {
 		key: 'uploadImage',
@@ -46378,6 +46393,9 @@ var dispatchToProps = function dispatchToProps(dispatch) {
 	return {
 		addItem: function addItem(item) {
 			return dispatch(_actions2.default.addItem(item));
+		},
+		fetchItems: function fetchItems(params) {
+			return dispatch(_actions2.default.fetchItems(params));
 		}
 	};
 };

@@ -15,6 +15,10 @@ class Results extends Component {
 		}
 	}
 
+	componentDidMount(){
+		this.props.fetchItems()
+	}
+
 	updateItem(attr, event){
 		event.preventDefault()
 		// console.log(attr + ' == ' + event.target.value)
@@ -36,19 +40,21 @@ class Results extends Component {
 
 		const currentUser = this.props.account.currentUser
 		let updated = Object.assign({}, this.state.item)
+		updated['position'] = this.props.map.currentLocation
 		updated['seller'] = {
 			id: currentUser.id,
 			username: currentUser.username,
 			image: currentUser.image || ''
 		}
 
-		console.log('ADD ITEM: ' + JSON.stringify(updated))
-
-		// let newItem = Object.assign({}, this.state.item)
-		// const len = this.props.item.all.length+1
-		// newItem['id'] = len.toString()
-		// newItem['position'] = this.props.map.currentLocation
-		// this.props.addItem(newItem)
+		// console.log('ADD ITEM: ' + JSON.stringify(updated))
+		this.props.addItem(updated)
+		.then(data => {
+			console.log('ITEM ADDED:' + JSON.stringify(data))
+		})
+		.catch(err => {
+			console.log('ERROR: ' + err.message)
+		})
 	}
 
 	uploadImage(files){
@@ -128,7 +134,8 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
-		addItem: (item) => dispatch(actions.addItem(item))
+		addItem: (item) => dispatch(actions.addItem(item)),
+		fetchItems: (params) => dispatch(actions.fetchItems(params))
 	}
 }
 
