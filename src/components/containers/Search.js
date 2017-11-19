@@ -12,14 +12,12 @@ class Search extends Component {
 	}
 
 	componentDidMount(){
-		console.log('componentDidMount: ')
-
+		// console.log('componentDidMount: ')
 		this.props.currentUser()
 		// .then(data => {
 		// 	console.log('CURRENT USER: ' + JSON.stringify(data))
 		// })
 		// .catch(err => {
-
 		// })
 	}
 
