@@ -10,7 +10,8 @@ export default (state = initialState, action) => {
 	switch (action.type){
 		case constants.CURRENT_USER_RECEIVED:
 			// console.log('CURRENT_USER_RECEIVED: ' + JSON.stringiy(action.data))
-			console.log('CURRENT_USER_RECEIVED: ' + JSON.stringify(action.data))
+			// console.log('CURRENT_USER_RECEIVED: ' + JSON.stringify(action.data))
+			updated['currentUser'] = action.data.user
 			return updated
 
 		default:

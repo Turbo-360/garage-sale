@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Nav, Footer, Item, Map } from './presentation'
-import { Search, Results } from './containers'
+import { Footer, Item, Map } from './presentation'
+import { Search, Results, Nav } from './containers'
 
 class Home extends Component {
 	constructor(){
