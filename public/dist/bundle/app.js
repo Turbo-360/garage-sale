@@ -10021,19 +10021,15 @@ function compose() {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	Here are a few sample constants for typical actions.
-	You may want to extends these to the other data
-	types for your project (e.g. BLOG_POST_CREATED, BLOG_POST_UPDATED, etc)
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
-
 exports.default = {
 
-	USERS_RECEIVED: 'USERS_RECEIVED',
-	USER_CREATED: 'USER_CREATED',
-	USER_LOGGED_IN: 'USER_LOGGED_IN',
-	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED'
+	LOCATION_CHANGED: 'LOCATION_CHANGED',
+	ITEM_ADDED: 'ITEM_ADDED'
+
+	// USERS_RECEIVED: 		'USERS_RECEIVED',
+	// USER_CREATED: 			'USER_CREATED',
+	// USER_LOGGED_IN: 		'USER_LOGGED_IN',
+	// CURRENT_USER_RECEIVED: 	'CURRENT_USER_RECEIVED'
 
 };
 
@@ -13253,14 +13249,16 @@ exports.default = {
 
 	addItem: function addItem(item) {
 		return {
-			type: 'ITEM_ADDED',
+			// type: 'ITEM_ADDED',
+			type: _constants2.default.ITEM_ADDED,
 			data: item
 		};
 	},
 
 	locationChanged: function locationChanged(location) {
 		return {
-			type: 'LOCATION_CHANGED',
+			// type: 'LOCATION_CHANGED',
+			type: _constants2.default.LOCATION_CHANGED,
 			data: location
 		};
 	}
@@ -31309,6 +31307,12 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _constants = __webpack_require__(104);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var initialState = {
 	all: [{ id: 1, key: '1', price: 10, defaultAnimation: 2, label: 'Nike Jordans', position: { lat: 40.7224017, lng: -73.9896719 } }, { id: 2, key: '2', price: 20, defaultAnimation: 2, label: 'Sofa', position: { lat: 40.71224017, lng: -73.9896719 } }, { id: 3, key: '3', price: 30, defaultAnimation: 2, label: 'TV', position: { lat: 40.71224017, lng: -73.9796719 } }]
 };
@@ -31320,7 +31324,7 @@ exports.default = function () {
 	var updated = Object.assign({}, state);
 
 	switch (action.type) {
-		case 'ITEM_ADDED':
+		case _constants2.default.ITEM_ADDED:
 			console.log('ITEM ADDED: ' + JSON.stringify(action.data));
 
 			var all = Object.assign([], updated.all);
@@ -31344,6 +31348,13 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+
+var _constants = __webpack_require__(104);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var initalState = {
 	currentLocation: { lat: 40.7224017, lng: -73.9896719 }
 };
@@ -31356,7 +31367,7 @@ exports.default = function () {
 
 	switch (action.type) {
 
-		case 'LOCATION_CHANGED':
+		case _constants2.default.LOCATION_CHANGED:
 			console.log('LOCATION_CHANGED: ' + JSON.stringify(action.data));
 			updated['currentLocation'] = action.data;
 			return updated;
@@ -44491,7 +44502,7 @@ var Search = function (_Component) {
 
 			return _react2.default.createElement(
 				'div',
-				{ className: 'sidebar-wrapper', style: { height: 960 } },
+				{ className: 'sidebar-wrapper' },
 				_react2.default.createElement(_presentation.Map, {
 					onMapReady: function onMapReady(map) {
 						if (_this2.state.map != null) return;
@@ -44504,11 +44515,10 @@ var Search = function (_Component) {
 
 					locationChanged: this.centerChanged.bind(this),
 					markers: items,
-					zoom: 14
-					// center={{lat:40.7224017, lng:-73.9896719}}
-					, center: this.props.map.currentLocation,
+					zoom: 14,
+					center: this.props.map.currentLocation,
 					containerElement: _react2.default.createElement('div', { style: { height: 100 + '%' } }),
-					mapElement: _react2.default.createElement('div', { style: { height: 100 + '%' } }) })
+					mapElement: _react2.default.createElement('div', { style: { height: 100 + 'vh' } }) })
 			);
 		}
 	}]);
@@ -46184,7 +46194,7 @@ var Results = function (_Component) {
 
 		_this.state = {
 			item: {
-				position: { lat: 40.70224017, lng: -73.9796719 }
+				// position: {lat:40.70224017, lng:-73.9796719}
 			}
 		};
 		return _this;
@@ -46215,6 +46225,7 @@ var Results = function (_Component) {
 			newItem['id'] = 100;
 			newItem['key'] = '100';
 			newItem['defaultAnimation'] = 2;
+			newItem['position'] = this.props.map.currentLocation;
 
 			/// we have to call the addItem action
 			this.props.addItem(newItem);
@@ -46286,7 +46297,8 @@ var localStyle = {
 
 var stateToProps = function stateToProps(state) {
 	return {
-		item: state.item
+		item: state.item,
+		map: state.map
 	};
 };
 

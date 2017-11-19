@@ -20,7 +20,7 @@ class Search extends Component {
 		const items = this.props.item.all || []
 
 		return (
-			<div className="sidebar-wrapper" style={{height:960}}>
+			<div className="sidebar-wrapper">
 				<Map 
 					onMapReady={ (map) => {
 						if (this.state.map != null)
@@ -35,10 +35,9 @@ class Search extends Component {
 					locationChanged={this.centerChanged.bind(this)}
 					markers={items}
 					zoom={14}
-					// center={{lat:40.7224017, lng:-73.9896719}}
 					center={this.props.map.currentLocation}
 					containerElement={<div style={{height:100+'%'}} />} 
-					mapElement={<div style={{height:100+'%'}} />} />
+					mapElement={<div style={{height:100+'vh'}} />} />
 			</div>
 		)
 	}

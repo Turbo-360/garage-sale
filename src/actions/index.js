@@ -5,14 +5,16 @@ export default {
 
 	addItem: (item) => {
 		return {
-			type: 'ITEM_ADDED',
+			// type: 'ITEM_ADDED',
+			type: constants.ITEM_ADDED,
 			data: item
 		}
 	},
 
 	locationChanged: (location) => {
 		return {
-			type: 'LOCATION_CHANGED',
+			// type: 'LOCATION_CHANGED',
+			type: constants.LOCATION_CHANGED,
 			data: location
 		}
 	}
