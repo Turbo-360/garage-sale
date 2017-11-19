@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 
 export default (props) => {
-    // {id:1, key:'1', defaultAnimation:2, label:'Nike Jordans', 
-    // position:{lat:40.7224017, lng:-73.9896719}},
 
     const item = props.item
 
@@ -18,7 +16,7 @@ export default (props) => {
                         </div>
                         <div className="col-xs-7">
                             <div className="numbers">
-                                <p>{item.label}</p>
+                                <p>{item.name}</p>
                                 ${item.price}
                             </div>
                         </div>
