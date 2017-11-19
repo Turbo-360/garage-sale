@@ -8,6 +8,11 @@ var React = _interopRequire(_react);
 
 var Component = _react.Component;
 module.exports = function (props) {
+    // {id:1, key:'1', defaultAnimation:2, label:'Nike Jordans',
+    // position:{lat:40.7224017, lng:-73.9896719}},
+
+    var item = props.item;
+
     return React.createElement(
         "div",
         { className: "col-lg-3 col-sm-6" },
@@ -38,9 +43,10 @@ module.exports = function (props) {
                             React.createElement(
                                 "p",
                                 null,
-                                "Capacity"
+                                item.label
                             ),
-                            "105GB"
+                            "$",
+                            item.price
                         )
                     )
                 ),

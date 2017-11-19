@@ -8,6 +8,13 @@ export default {
 			type: 'ITEM_ADDED',
 			data: item
 		}
+	},
+
+	locationChanged: (location) => {
+		return {
+			type: 'LOCATION_CHANGED',
+			data: location
+		}
 	}
 
 

@@ -9,15 +9,11 @@ var applyMiddleware = _redux.applyMiddleware;
 var combineReducers = _redux.combineReducers;
 var thunk = _interopRequire(require("redux-thunk"));
 
-var userReducer = require("../reducers").userReducer;
+var _reducers = require("../reducers");
 
+var userReducer = _reducers.userReducer;
+var itemReducer = _reducers.itemReducer;
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *
-	This is a store with one reducer: userReducer. When 
-	adding more reducers, make sure to include them in 
-	line 3 (above) and line 18 (below):
-* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*/
 
 var store;
 module.exports = {
@@ -26,7 +22,8 @@ module.exports = {
 		// initialState can be null
 
 		var reducers = combineReducers({ // insert reducers here
-			user: userReducer
+			user: userReducer,
+			item: itemReducer
 		});
 
 		if (initialState) {
