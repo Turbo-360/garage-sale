@@ -15,7 +15,7 @@ class Results extends Component {
 
 	updateItem(attr, event){
 		event.preventDefault()
-		console.log(attr + ' == ' + event.target.value)
+		// console.log(attr + ' == ' + event.target.value)
 
 		// this.state.item[attr] = event.target.value // NO
 
@@ -27,17 +27,13 @@ class Results extends Component {
 	}
 
 	addItem(){
-		console.log('ADD ITEM: ' + JSON.stringify(this.state.item))
+		// console.log('ADD ITEM: ' + JSON.stringify(this.state.item))
 
 		let newItem = Object.assign({}, this.state.item)
-//		{id:1, key:'1', price:10, defaultAnimation:2, label:'Nike Jordans', position:{lat:40.7224017, lng:-73.9896719}},
 
-		newItem['id'] = 100
-		newItem['key'] = '100'
-		newItem['defaultAnimation'] = 2
+		const len = this.props.item.all.length+1
+		newItem['id'] = len.toString()
 		newItem['position'] = this.props.map.currentLocation
-
-		/// we have to call the addItem action
 		this.props.addItem(newItem)
 	}
 

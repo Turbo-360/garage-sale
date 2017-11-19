@@ -31314,7 +31314,7 @@ var _constants2 = _interopRequireDefault(_constants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
-	all: [{ id: '1', price: 10, name: 'Nike Jordans', position: { lat: 40.7224017, lng: -73.9896719 } }, { id: '2', price: 20, name: 'Sofa', position: { lat: 40.71224017, lng: -73.9896719 } }, { id: '3', price: 30, name: 'TV', position: { lat: 40.71224017, lng: -73.9796719 } }]
+	all: [{ id: '1', price: 10, name: 'Nike Jordans', position: { lat: 40.7224017, lng: -73.9896719 }, seller: { username: 'lebron_james', image: 'http://www.athletesgonegood.com/images/thumbnails/thumb-lebron-james.jpg' } }, { id: '2', price: 20, name: 'Sofa', position: { lat: 40.71224017, lng: -73.9896719 }, seller: { username: 'kevin_durant', image: 'https://pbs.twimg.com/profile_images/749992876906536960/mf3yAOgW.jpg' } }, { id: '3', price: 30, name: 'TV', position: { lat: 40.71224017, lng: -73.9796719 }, seller: { username: 'kyrie_irving', image: 'https://bookingagentinfo.com/wp-content/uploads/2016/12/Kyrie-Irving-Contact-Information.jpg' } }]
 };
 
 exports.default = function () {
@@ -32943,16 +32943,24 @@ exports.default = function (props) {
                     "div",
                     { className: "footer" },
                     _react2.default.createElement("hr", null),
+                    _react2.default.createElement("img", { style: localStyle.icon, src: item.seller.image }),
                     _react2.default.createElement(
                         "div",
                         { className: "stats" },
-                        _react2.default.createElement("i", { className: "ti-reload" }),
-                        " Updated now"
+                        item.seller.username
                     )
                 )
             )
         )
     );
+};
+
+var localStyle = {
+    icon: {
+        width: 28,
+        borderRadius: 14,
+        float: 'right'
+    }
 };
 
 /***/ }),
@@ -46214,7 +46222,7 @@ var Results = function (_Component) {
 		key: 'updateItem',
 		value: function updateItem(attr, event) {
 			event.preventDefault();
-			console.log(attr + ' == ' + event.target.value);
+			// console.log(attr + ' == ' + event.target.value)
 
 			// this.state.item[attr] = event.target.value // NO
 
@@ -46227,17 +46235,13 @@ var Results = function (_Component) {
 	}, {
 		key: 'addItem',
 		value: function addItem() {
-			console.log('ADD ITEM: ' + JSON.stringify(this.state.item));
+			// console.log('ADD ITEM: ' + JSON.stringify(this.state.item))
 
 			var newItem = Object.assign({}, this.state.item);
-			//		{id:1, key:'1', price:10, defaultAnimation:2, label:'Nike Jordans', position:{lat:40.7224017, lng:-73.9896719}},
 
-			newItem['id'] = 100;
-			newItem['key'] = '100';
-			newItem['defaultAnimation'] = 2;
+			var len = this.props.item.all.length + 1;
+			newItem['id'] = len.toString();
 			newItem['position'] = this.props.map.currentLocation;
-
-			/// we have to call the addItem action
 			this.props.addItem(newItem);
 		}
 	}, {

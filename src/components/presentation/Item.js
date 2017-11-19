@@ -23,14 +23,23 @@ export default (props) => {
                     </div>
                     <div className="footer">
                         <hr />
+                        <img style={localStyle.icon} src={item.seller.image} />
                         <div className="stats">
-                            <i className="ti-reload"></i> Updated now
+                            {item.seller.username}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 	)
-
-
 }
+
+const localStyle = {
+    icon: {
+        width: 28,
+        borderRadius: 14,
+        float: 'right'
+    }
+}
+
+
