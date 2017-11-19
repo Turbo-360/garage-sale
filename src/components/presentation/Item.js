@@ -9,16 +9,14 @@ export default (props) => {
             <div className="card">
                 <div className="content">
                     <div className="row">
-                        <div className="col-xs-5">
-                            <div className="icon-big icon-warning text-center">
-                                <i className="ti-server"></i>
-                            </div>
-                        </div>
-                        <div className="col-xs-7">
+                        <div className="col-xs-12">
                             <div className="numbers">
                                 <p>{item.name}</p>
                                 ${item.price}
                             </div>
+                        </div>
+                        <div className="col-xs-12">
+                            <img style={localStyle.itemImage} src={item.image} />
                         </div>
                     </div>
                     <div className="footer">
@@ -39,6 +37,12 @@ const localStyle = {
         width: 28,
         borderRadius: 14,
         float: 'right'
+    },
+    itemImage: {
+        width: 100+'%',
+        padding: 3,
+        border: '1px solid #ddd',
+        background: '#fffffa'
     }
 }
 

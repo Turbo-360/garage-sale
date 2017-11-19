@@ -1,5 +1,5 @@
 import constants from '../constants'
-import { TurboClient } from '../utils'
+import { TurboClient, HTTPAsync } from '../utils'
 
 export default {
 
@@ -16,6 +16,15 @@ export default {
 			// type: 'LOCATION_CHANGED',
 			type: constants.LOCATION_CHANGED,
 			data: location
+		}
+	},
+
+	// this is an AsyncAction!!!
+	// https://redux.js.org/docs/advanced/AsyncActions.html
+	currentUser: () => {
+	// get: (url, params, actionType) => {
+		return dispatch => {
+			return dispatch(HTTPAsync.get('/auth/currentuser', null, constants.CURRENT_USER_RECEIVED))
 		}
 	}
 

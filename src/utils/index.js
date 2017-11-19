@@ -1,7 +1,9 @@
 import TurboClient from './TurboClient'
+import HTTPAsync from './HTTPAsync'
 
 export {
 
-	TurboClient
+	TurboClient,
+	HTTPAsync
 	
 }
